@@ -8,7 +8,8 @@ class StudentAdmin(admin.ModelAdmin):
         ('school',      {'fields':{'school'}})
     ]
 
-    
+class TemporaryAdmin(admin.ModelAdmin):
+    list_display = ('username', 'pwd', 'city', 'school','role')
     
 admin.site.register(City)
 admin.site.register(Parent)
@@ -20,7 +21,7 @@ admin.site.register(Student,StudentAdmin)
 admin.site.register(StudentProfile)
 admin.site.register(Teacher)
 admin.site.register(TeacherProfile)
-admin.site.register(Temporary)
+admin.site.register(Temporary,TemporaryAdmin)
 
 
 

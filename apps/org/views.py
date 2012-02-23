@@ -8,45 +8,55 @@ from django.contrib.auth.models import User
 from dnevniktools.dbutils import get_nextautoincrement
 from apps.models import settings as ns
 from random import random
+from django.contrib.auth.decorators import login_required
 
-
+@login_required
 def index(request):    
     return render_to_response('org/home.html', {},
                               context_instance=RequestContext(request))
 
+@login_required
 def students_reg(request):          
     return render_to_response('org/students_reg.html', {},
                               context_instance=RequestContext(request))
-    
+
+@login_required    
 def student_del(request):        
     return render_to_response('org/home.html', {},
                               context_instance=RequestContext(request))
-    
+
+@login_required    
 def students_info(request):        
     return render_to_response('org/home.html', {},
                               context_instance=RequestContext(request))
-    
+
+@login_required    
 def students_list(request):    
     rc = Student.objects.all()
     return render_to_response('org/students_list.html', rc,
                               context_instance=RequestContext(request))
-    
+
+@login_required    
 def parents_reg(request):
     return render_to_response('org/parents_reg.html', {},
                               context_instance=RequestContext(request))
-        
+
+@login_required        
 def parents_del(request):    
     return render_to_response('org/home.html', {},
                               context_instance=RequestContext(request))
-    
+
+@login_required    
 def parents_info(request):    
     return render_to_response('org/home.html', {},
                               context_instance=RequestContext(request))
-    
+
+@login_required    
 def parents_list(request):    
     rc = Parent.objects.all()
     return render_to_response('org/parents_list.html', rc,
                               context_instance=RequestContext(request))
+    
 def rand():
     r = random()
     cur = long(r*100000000000)
@@ -69,8 +79,8 @@ def rand():
         index = index+1
     return pwd1
 
-def teachers_temp_reg(request):
-    
+@login_required
+def teachers_temp_reg(request):    
     if request.method == 'POST':
         form = TemporaryForm(request.POST)
         if form.is_valid():                                
@@ -92,6 +102,7 @@ def teachers_temp_reg(request):
     return render_to_response('org/teachers_reg.html', rc,
                               context_instance=RequestContext(request)) 
 
+@login_required
 def teacher_del(request,id):    
     teacher_temp = Temporary.objects.get(pk = id)
     teacher_temp.delete()
@@ -99,7 +110,8 @@ def teacher_del(request,id):
     temp = Temporary.objects.all()
     return render_to_response('org/teachers_list.html', {'teacher':teacher,'temp':temp},
                               context_instance=RequestContext(request))
-    
+
+@login_required    
 def teacher_temp_del(request,id):    
     teacher_temp = Temporary.objects.get(pk = id)
     teacher_temp.delete()
@@ -107,17 +119,20 @@ def teacher_temp_del(request,id):
     temp = Temporary.objects.all()
     return render_to_response('org/teachers_list.html', {'teacher':teacher,'temp':temp},
                               context_instance=RequestContext(request))
-        
+
+@login_required        
 def teachers_list(request):    
     teacher = Teacher.objects.all()
     temp = Temporary.objects.all()    
     return render_to_response('org/teachers_list.html', {'teacher':teacher,'temp':temp},
                               context_instance=RequestContext(request))
-    
+
+@login_required    
 def teachers_info(request):    
     return render_to_response('org/home.html', {},
                               context_instance=RequestContext(request))
-    
+
+@login_required    
 def school_reg(request):
     org = Organization.objects.get(name = 'katev')
     if request.method == 'POST':
@@ -132,24 +147,28 @@ def school_reg(request):
     rc = RequestContext(request, {'form':form, 'org':org,'title':'School Registration Form'})    
     return render_to_response('org/school_reg.html', rc,
                               context_instance=RequestContext(request)) 
-    
+
+@login_required    
 def school_del(request, id):    
     school = School.objects.get(pk = id)
     school.delete()    
     rc = School.objects.all()
     return render_to_response('org/schools_list.html', {'rc':rc},
                               context_instance=RequestContext(request))
-        
+
+@login_required        
 def schools_list(request):    
     rc = School.objects.all()
     return render_to_response('org/schools_list.html', {'rc':rc},
                               context_instance=RequestContext(request))
-    
+
+@login_required    
 def school_info(request, id):
     rc = School_info.objects.get(pk = id)    
     return render_to_response('org/school_info.html', {'rc':rc},
                               context_instance=RequestContext(request))
-    
+
+@login_required    
 def city_add(request):  
     if request.method == 'POST':
         form = City_add_form(request.POST)
@@ -161,12 +180,14 @@ def city_add(request):
     rc = RequestContext(request, {'form':form, 'title':'Add City Form'})    
     return render_to_response('org/city_add.html', rc,
                               context_instance=RequestContext(request))
-    
+
+@login_required    
 def city_list(request):  
     rc = City.objects.all()    
     return render_to_response('org/city_list.html', {'rc':rc},
                               context_instance=RequestContext(request))
-    
+
+@login_required    
 def city_del(request, id):
     city = City.objects.get(pk = id)
     city.delete()

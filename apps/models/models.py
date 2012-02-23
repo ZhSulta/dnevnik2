@@ -52,24 +52,27 @@ class StudentProfile(models.Model):
     student = models.OneToOneField(Student)
 
 class Teacher(models.Model):
-    user_id = models.OneToOneField(User)
-    address = models.CharField(max_length = 255, blank = True, null = True)
-    mobile = models.CharField(max_length = 20, blank = True, null = True)
+    user_id = models.OneToOneField(User)    
     school = models.ForeignKey(School)
     
     def __unicode__(self):
         return self.user_id.username
     
 class TeacherProfile(models.Model):
+    GENDER_CHOICES = (
+        (u'M', u'Male'),
+        (u'F', u'Female'),
+    )
+    email = models.EmailField(max_length = 40,blank = True,)
+    mobile =  models.CharField(max_length = 255, blank = True, null = True)
+    address = models.CharField(max_length = 255, blank = True, null = True)    
     teacher = models.OneToOneField(Teacher)
     birth = models.DateField()
-    gender =  models.CharField(max_length = 255, blank = True, null = True)
+    gender = models.CharField(max_length=2, choices=GENDER_CHOICES)
     nationality = models.CharField(max_length = 255, blank = True, null = True)
 
 class Parent(models.Model):
-    user = models.OneToOneField(User)
-    address = models.CharField(max_length = 255, blank = True, null = True)
-    mobile = models.CharField(max_length = 20, blank = True, null = True)
+    user = models.OneToOneField(User)    
     school = models.ForeignKey(School)
     child = models.OneToOneField(Student)
     
@@ -77,8 +80,10 @@ class Parent(models.Model):
         return self.user.username
     
 class ParentProfile(models.Model):
-    parentsn = models.OneToOneField(Parent)
-
+    parents = models.OneToOneField(Parent)
+    address = models.CharField(max_length = 255, blank = True, null = True)
+    mobile =  models.CharField(max_length = 255, blank = True, null = True)
+    
 class Temporary(models.Model):
     username = models.CharField(max_length=30)
     pwd = models.CharField(max_length=30)
