@@ -5,6 +5,11 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
 
+def index(request):
+    rc = RequestContext(request, {})
+    return render_to_response('student/home.html', rc)   
+
+
 def student_main(request,student_id):    
     c = {'id':student_id}
     return render_to_response('student/main.html', c,

@@ -2,10 +2,10 @@
 {% block content %}
 	<div>
        <ul>
-         <li><a class="quiet" href="{% url school_reg %}">Register the school</a></li>
+         <li><a class="quiet" id= "d" href="{% url school_reg %}">Register the school</a></li>
          <li><a class="quiet" href="{% url teachers_temp_reg %}">Register the teachers</a></li>
-         <li><a class="quiet" href="{% url students_reg %}">Register the students</a></li>
-         <li><a class="quiet" href="{% url parents_reg %}">Register the parents</a></li>          
+         <li><a class="quiet" href="{% url students_temp_reg %}">Register the students</a></li>
+         <li><a class="quiet" href="{% url parents_temp_reg %}">Register the parents</a></li>          
        </ul>
 	</div>
     <div>
@@ -14,12 +14,6 @@
          <li><a class="quiet" href="{% url teachers_list %}">List of all teachers</a></li>
          <li><a class="quiet" href="{% url students_list %}">List of all students</a></li>
          <li><a class="quiet" href="{% url parents_list %}">List of all parents</a></li>          
-       </ul>
-	</div>
-	<div>
-       <ul>         
-         <li><a class="quiet" href="{% url students_info %}">Show information about students</a></li>
-         <li><a class="quiet" href="{% url parents_info %}">Show information about parents</a></li>          
        </ul>
 	</div>	
     <div>

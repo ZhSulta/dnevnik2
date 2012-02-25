@@ -47,9 +47,7 @@ class Migration(SchemaMigration):
         # Adding model 'Student'
         db.create_table('models_student', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('user', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['auth.User'], unique=True)),
-            ('address', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
-            ('mobile', self.gf('django.db.models.fields.CharField')(max_length=20, null=True, blank=True)),
+            ('user_id', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['auth.User'], unique=True)),
             ('school', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['models.School'])),
         ))
         db.send_create_signal('models', ['Student'])
@@ -58,6 +56,12 @@ class Migration(SchemaMigration):
         db.create_table('models_studentprofile', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('student', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['models.Student'], unique=True)),
+            ('email', self.gf('django.db.models.fields.EmailField')(max_length=40, blank=True)),
+            ('mobile', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
+            ('address', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
+            ('birth', self.gf('django.db.models.fields.DateField')(default=datetime.datetime.now, blank=True)),
+            ('gender', self.gf('django.db.models.fields.CharField')(max_length=2)),
+            ('nationality', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
         ))
         db.send_create_signal('models', ['StudentProfile'])
 
@@ -65,8 +69,6 @@ class Migration(SchemaMigration):
         db.create_table('models_teacher', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('user_id', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['auth.User'], unique=True)),
-            ('address', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
-            ('mobile', self.gf('django.db.models.fields.CharField')(max_length=20, null=True, blank=True)),
             ('school', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['models.School'])),
         ))
         db.send_create_signal('models', ['Teacher'])
@@ -75,8 +77,11 @@ class Migration(SchemaMigration):
         db.create_table('models_teacherprofile', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('teacher', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['models.Teacher'], unique=True)),
-            ('birth', self.gf('django.db.models.fields.DateField')()),
-            ('gender', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
+            ('email', self.gf('django.db.models.fields.EmailField')(max_length=40, blank=True)),
+            ('mobile', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
+            ('address', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
+            ('birth', self.gf('django.db.models.fields.DateField')(default=datetime.datetime.now, blank=True)),
+            ('gender', self.gf('django.db.models.fields.CharField')(max_length=2)),
             ('nationality', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
         ))
         db.send_create_signal('models', ['TeacherProfile'])
@@ -84,9 +89,7 @@ class Migration(SchemaMigration):
         # Adding model 'Parent'
         db.create_table('models_parent', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('user', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['auth.User'], unique=True)),
-            ('address', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
-            ('mobile', self.gf('django.db.models.fields.CharField')(max_length=20, null=True, blank=True)),
+            ('user_id', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['auth.User'], unique=True)),
             ('school', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['models.School'])),
             ('child', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['models.Student'], unique=True)),
         ))
@@ -95,7 +98,13 @@ class Migration(SchemaMigration):
         # Adding model 'ParentProfile'
         db.create_table('models_parentprofile', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('parentsn', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['models.Parent'], unique=True)),
+            ('parent', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['models.Parent'], unique=True)),
+            ('email', self.gf('django.db.models.fields.EmailField')(max_length=40, blank=True)),
+            ('mobile', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
+            ('address', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
+            ('birth', self.gf('django.db.models.fields.DateField')(default=datetime.datetime.now, blank=True)),
+            ('gender', self.gf('django.db.models.fields.CharField')(max_length=2)),
+            ('nationality', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
         ))
         db.send_create_signal('models', ['ParentProfile'])
 
@@ -104,8 +113,8 @@ class Migration(SchemaMigration):
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('username', self.gf('django.db.models.fields.CharField')(max_length=30)),
             ('pwd', self.gf('django.db.models.fields.CharField')(max_length=30)),
-            ('school', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['models.School'], unique=True)),
-            ('city', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['models.City'], unique=True)),
+            ('school', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['models.School'])),
+            ('city', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['models.City'])),
             ('role', self.gf('django.db.models.fields.IntegerField')(default=1)),
         ))
         db.send_create_signal('models', ['Temporary'])
@@ -197,17 +206,21 @@ class Migration(SchemaMigration):
         },
         'models.parent': {
             'Meta': {'object_name': 'Parent'},
-            'address': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'child': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['models.Student']", 'unique': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'mobile': ('django.db.models.fields.CharField', [], {'max_length': '20', 'null': 'True', 'blank': 'True'}),
             'school': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['models.School']"}),
-            'user': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['auth.User']", 'unique': 'True'})
+            'user_id': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['auth.User']", 'unique': 'True'})
         },
         'models.parentprofile': {
             'Meta': {'object_name': 'ParentProfile'},
+            'address': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'birth': ('django.db.models.fields.DateField', [], {'default': 'datetime.datetime.now', 'blank': 'True'}),
+            'email': ('django.db.models.fields.EmailField', [], {'max_length': '40', 'blank': 'True'}),
+            'gender': ('django.db.models.fields.CharField', [], {'max_length': '2'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'parentsn': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['models.Parent']", 'unique': 'True'})
+            'mobile': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'nationality': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'parent': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['models.Parent']", 'unique': 'True'})
         },
         'models.school': {
             'Meta': {'object_name': 'School'},
@@ -228,40 +241,45 @@ class Migration(SchemaMigration):
         },
         'models.student': {
             'Meta': {'object_name': 'Student'},
-            'address': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'mobile': ('django.db.models.fields.CharField', [], {'max_length': '20', 'null': 'True', 'blank': 'True'}),
             'school': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['models.School']"}),
-            'user': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['auth.User']", 'unique': 'True'})
+            'user_id': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['auth.User']", 'unique': 'True'})
         },
         'models.studentprofile': {
             'Meta': {'object_name': 'StudentProfile'},
+            'address': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'birth': ('django.db.models.fields.DateField', [], {'default': 'datetime.datetime.now', 'blank': 'True'}),
+            'email': ('django.db.models.fields.EmailField', [], {'max_length': '40', 'blank': 'True'}),
+            'gender': ('django.db.models.fields.CharField', [], {'max_length': '2'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'mobile': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'nationality': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'student': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['models.Student']", 'unique': 'True'})
         },
         'models.teacher': {
             'Meta': {'object_name': 'Teacher'},
-            'address': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'mobile': ('django.db.models.fields.CharField', [], {'max_length': '20', 'null': 'True', 'blank': 'True'}),
             'school': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['models.School']"}),
             'user_id': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['auth.User']", 'unique': 'True'})
         },
         'models.teacherprofile': {
             'Meta': {'object_name': 'TeacherProfile'},
-            'birth': ('django.db.models.fields.DateField', [], {}),
-            'gender': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'address': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'birth': ('django.db.models.fields.DateField', [], {'default': 'datetime.datetime.now', 'blank': 'True'}),
+            'email': ('django.db.models.fields.EmailField', [], {'max_length': '40', 'blank': 'True'}),
+            'gender': ('django.db.models.fields.CharField', [], {'max_length': '2'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'mobile': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'nationality': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'teacher': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['models.Teacher']", 'unique': 'True'})
         },
         'models.temporary': {
             'Meta': {'object_name': 'Temporary'},
-            'city': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['models.City']", 'unique': 'True'}),
+            'city': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['models.City']"}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'pwd': ('django.db.models.fields.CharField', [], {'max_length': '30'}),
             'role': ('django.db.models.fields.IntegerField', [], {'default': '1'}),
-            'school': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['models.School']", 'unique': 'True'}),
+            'school': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['models.School']"}),
             'username': ('django.db.models.fields.CharField', [], {'max_length': '30'})
         }
     }
