@@ -15,8 +15,11 @@
 				<td>{{ i.pwd }}</td>
 				</td>			
 				<td>		
-					<a href="{% url teachers_del i.id %}">Delete</a>
-				</td>					
+					<a href="{% url teacher_del i.id %}">Delete</a>
+				</td>	
+				<td>		
+					<a href="{% url teacher_info i.id %}">Info</a>
+				</td>		
 				<td>		
 					<a href="{% url teachers_info i.id %}">Info</a>
 				</td>										
@@ -43,7 +46,7 @@
 				<td>{{ i.school }}</td>
 				</td>			
 				<td>		
-					<a href="{% url teachers_temp_del i.id %}">Delete</a>
+					<a href="{% url teacher_temp_del i.id %}">Delete</a>
 				</td>
 			</tr>														
 		{% endfor %}

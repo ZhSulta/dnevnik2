@@ -8,119 +8,45 @@ from django.contrib.auth.models import User
 from dnevniktools.dbutils import get_nextautoincrement
 from apps.models import settings as ns
 from random import random
-from django.contrib.auth.decorators import login_required
 
-@login_required
-def index(request):        
+
+def index(request):    
     return render_to_response('org/home.html', {},
                               context_instance=RequestContext(request))
 
-@login_required
-def students_temp_reg(request):          
-    if request.method == 'POST':
-        form = TemporaryForm(request.POST)
-        if form.is_valid():                                
-            number1  = form.cleaned_data['number']
-            school1 = form.cleaned_data['school']
-            city1 = form.cleaned_data['city']
-            i = 1            
-            while i <= number1: 
-                pwd1 = rand()
-                username1 = rand()                               
-                temporary = Temporary(school = school1, city = city1, role = ns.STUDENT_POSITION,username = username1, pwd = pwd1)
-                temporary.save()
-                print i                
-                i = i+1
-            return HttpResponseRedirect(reverse('students_list'))
-    else:
-        form = TemporaryForm()
-    rc = RequestContext(request, {'form':form, 'title':'Registration Form'})
-    return render_to_response('org/students_reg.html', rc,
-                              context_instance=RequestContext(request)) 
-
-@login_required
-def students_del(request,id):    
-    student = Student.objects.get(pk = id)
-    student.delete()
-    student = Student.objects.all()
-    temp = Temporary.objects.filter(role = ns.STUDENT_POSITION)  
-    return render_to_response('org/students_list.html', {'student':student,'temp':temp},
+def students_reg(request):          
+    return render_to_response('org/students_reg.html', {},
                               context_instance=RequestContext(request))
-
-@login_required    
-def students_temp_del(request,id):    
-    student_temp = Temporary.objects.get(pk = id)
-    student_temp.delete()
-    student = Student.objects.all()
-    temp = Temporary.objects.filter(role = ns.STUDENT_POSITION)  
-    return render_to_response('org/students_list.html', {'student':student,'temp':temp},
+    
+def student_del(request):        
+    return render_to_response('org/home.html', {},
                               context_instance=RequestContext(request))
-
-@login_required    
+    
 def students_info(request):        
     return render_to_response('org/home.html', {},
                               context_instance=RequestContext(request))
-
-@login_required    
+    
 def students_list(request):    
-    student = Student.objects.all()
-    temp = Temporary.objects.filter(role = ns.STUDENT_POSITION)    
-    return render_to_response('org/students_list.html', {'student':student,'temp':temp},
+    rc = Student.objects.all()
+    return render_to_response('org/students_list.html', rc,
                               context_instance=RequestContext(request))
-
-@login_required    
-def parents_temp_reg(request):
-    if request.method == 'POST':
-        form = TemporaryForm(request.POST)
-        if form.is_valid():                                
-            number1  = form.cleaned_data['number']
-            school1 = form.cleaned_data['school']
-            city1 = form.cleaned_data['city']
-            i = 1            
-            while i <= number1: 
-                pwd1 = rand()
-                username1 = rand()                               
-                temporary = Temporary(school = school1, city = city1, role = ns.PARENTS_POSITION,username = username1, pwd = pwd1)
-                temporary.save()
-                print i                
-                i = i+1
-            return HttpResponseRedirect(reverse('parents_list'))
-    else:
-        form = TemporaryForm()
-    rc = RequestContext(request, {'form':form, 'title':'Registration Form'})
-    return render_to_response('org/parents_reg.html', rc,
-                              context_instance=RequestContext(request)) 
-
-@login_required
-def parents_del(request,id):    
-    parent = Parent.objects.get(pk = id)
-    parent.delete()
-    parent = Parent.objects.all()
-    temp = Temporary.objects.filter(role = ns.PARENTS_POSITION)  
-    return render_to_response('org/parents_list.html', {'parent':parent,'temp':temp},
+    
+def parents_reg(request):
+    return render_to_response('org/parents_reg.html', {},
                               context_instance=RequestContext(request))
-
-@login_required    
-def parents_temp_del(request,id):    
-    parent_temp = Temporary.objects.get(pk = id)
-    parent_temp.delete()
-    parent = Parent.objects.all()
-    temp = Temporary.objects.filter(role = ns.PARENTS_POSITION)  
-    return render_to_response('org/parents_list.html', {'parent':parent,'temp':temp},
+        
+def parents_del(request):    
+    return render_to_response('org/home.html', {},
                               context_instance=RequestContext(request))
-
-@login_required    
+    
 def parents_info(request):    
     return render_to_response('org/home.html', {},
                               context_instance=RequestContext(request))
-
-@login_required    
-def parents_list(request):    
-    parent = Parent.objects.all()
-    temp = Temporary.objects.filter(role = ns.PARENTS_POSITION)    
-    return render_to_response('org/parents_list.html', {'parent':parent,'temp':temp},
-                              context_instance=RequestContext(request))
     
+def parents_list(request):    
+    rc = Parent.objects.all()
+    return render_to_response('org/parents_list.html', rc,
+                              context_instance=RequestContext(request))
 def rand():
     r = random()
     cur = long(r*100000000000)
@@ -143,8 +69,8 @@ def rand():
         index = index+1
     return pwd1
 
-@login_required
-def teachers_temp_reg(request):    
+def teachers_temp_reg(request):
+    
     if request.method == 'POST':
         form = TemporaryForm(request.POST)
         if form.is_valid():                                
@@ -166,37 +92,32 @@ def teachers_temp_reg(request):
     return render_to_response('org/teachers_reg.html', rc,
                               context_instance=RequestContext(request)) 
 
-@login_required
-def teachers_del(request,id):    
-    teacher = Teacher.objects.get(pk = id)
-    teacher.delete()
-    teacher = Teacher.objects.all()
-    temp = Temporary.objects.filter(role = ns.TEACHER_POSITION)  
-    return render_to_response('org/teachers_list.html', {'teacher':teacher,'temp':temp},
-                              context_instance=RequestContext(request))
-
-@login_required    
-def teachers_temp_del(request,id):    
+def teacher_del(request,id):    
     teacher_temp = Temporary.objects.get(pk = id)
     teacher_temp.delete()
     teacher = Teacher.objects.all()
-    temp = Temporary.objects.filter(role = ns.TEACHER_POSITION)  
+    temp = Temporary.objects.all()
     return render_to_response('org/teachers_list.html', {'teacher':teacher,'temp':temp},
                               context_instance=RequestContext(request))
-
-@login_required        
+    
+def teacher_temp_del(request,id):    
+    teacher_temp = Temporary.objects.get(pk = id)
+    teacher_temp.delete()
+    teacher = Teacher.objects.all()
+    temp = Temporary.objects.all()
+    return render_to_response('org/teachers_list.html', {'teacher':teacher,'temp':temp},
+                              context_instance=RequestContext(request))
+        
 def teachers_list(request):    
     teacher = Teacher.objects.all()
-    temp = Temporary.objects.filter(role = ns.TEACHER_POSITION)    
+    temp = Temporary.objects.all()    
     return render_to_response('org/teachers_list.html', {'teacher':teacher,'temp':temp},
                               context_instance=RequestContext(request))
-
-@login_required    
+    
 def teachers_info(request):    
     return render_to_response('org/home.html', {},
                               context_instance=RequestContext(request))
-
-@login_required    
+    
 def school_reg(request):
     org = Organization.objects.get(name = 'katev')
     if request.method == 'POST':
@@ -211,28 +132,24 @@ def school_reg(request):
     rc = RequestContext(request, {'form':form, 'org':org,'title':'School Registration Form'})    
     return render_to_response('org/school_reg.html', rc,
                               context_instance=RequestContext(request)) 
-
-@login_required    
+    
 def school_del(request, id):    
     school = School.objects.get(pk = id)
     school.delete()    
     rc = School.objects.all()
     return render_to_response('org/schools_list.html', {'rc':rc},
                               context_instance=RequestContext(request))
-
-@login_required        
+        
 def schools_list(request):    
     rc = School.objects.all()
     return render_to_response('org/schools_list.html', {'rc':rc},
                               context_instance=RequestContext(request))
-
-@login_required    
+    
 def school_info(request, id):
     rc = School_info.objects.get(pk = id)    
     return render_to_response('org/school_info.html', {'rc':rc},
                               context_instance=RequestContext(request))
-
-@login_required    
+    
 def city_add(request):  
     if request.method == 'POST':
         form = City_add_form(request.POST)
@@ -244,14 +161,12 @@ def city_add(request):
     rc = RequestContext(request, {'form':form, 'title':'Add City Form'})    
     return render_to_response('org/city_add.html', rc,
                               context_instance=RequestContext(request))
-
-@login_required    
+    
 def city_list(request):  
     rc = City.objects.all()    
     return render_to_response('org/city_list.html', {'rc':rc},
                               context_instance=RequestContext(request))
-
-@login_required    
+    
 def city_del(request, id):
     city = City.objects.get(pk = id)
     city.delete()

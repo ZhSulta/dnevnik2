@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+<!-- ... -->
+
+{% block content %}
+	<a href="{% url main year|add:'-3' %}">&lt;&lt; Prev</a>
+	<a href="{% url main year|add:'3' %}">Next &gt;&gt;</a>
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css" />
+    {% for year, months in years %}
+        <div class="clear"></div>
+        <h4>{{ year }}</h4>
+        <table border="1">
+        <tr>
+        <tr>
+        {% for month in months %}
+          	
+            <div class=
+            {% if month.current %}"current"{% endif %}
+            {% if not month.current %}"month"{% endif %} >
+           
+           
+                {% if month.entry %}<b>{% endif %}
+                
+                <td><a  href="{% url month year month.n %}">{{ month.name }}</a></td>
+                {% if month.entry %}</b>{% endif %}
+            </div>
+            {% if month.n == 6 %}</tr>{% endif %}
+            
+        {% endfor %}
+        </tr>
+        </table>
+    {% endfor %}
+{% endblock %}
+

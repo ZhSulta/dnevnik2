@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 from apps.models import settings as ns
-import datetime
 
 
 class City(models.Model):
@@ -41,32 +40,21 @@ class School_info(models.Model):
         return self.school.name
     
 class Student(models.Model):
-    user_id = models.OneToOneField(User)    
+    user = models.OneToOneField(User)
+    address = models.CharField(max_length = 255, blank = True, null = True)
+    mobile = models.CharField(max_length = 20, blank = True, null = True)
     school = models.ForeignKey(School)
     
     def __unicode__(self):
-        return self.user_id.username
+        return self.user.username
     
 class StudentProfile(models.Model):
     student = models.OneToOneField(Student)
-    
-    GENDER_CHOICES = (
-        (u'M', u'Male'),
-        (u'F', u'Female'),
-    )
-    
-    email = models.EmailField(max_length = 40,blank = True,)
-    mobile =  models.CharField(max_length = 255, blank = True, null = True)
-    address = models.CharField(max_length = 255, blank = True, null = True)    
-    birth = models.DateField(blank = True, default=datetime.datetime.now)
-    gender = models.CharField(max_length=2, choices=GENDER_CHOICES)
-    nationality = models.CharField(max_length = 255, blank = True, null = True)
 
-    def __unicode__(self):
-        return self.teacher.user_id.username
-    
 class Teacher(models.Model):
-    user_id = models.OneToOneField(User)    
+    user_id = models.OneToOneField(User)
+    address = models.CharField(max_length = 255, blank = True, null = True)
+    mobile = models.CharField(max_length = 20, blank = True, null = True)
     school = models.ForeignKey(School)
     
     def __unicode__(self):
@@ -74,47 +62,23 @@ class Teacher(models.Model):
     
 class TeacherProfile(models.Model):
     teacher = models.OneToOneField(Teacher)
-    
-    GENDER_CHOICES = (
-        (u'M', u'Male'),
-        (u'F', u'Female'),
-    )
-    
-    email = models.EmailField(max_length = 40,blank = True,)
-    mobile =  models.CharField(max_length = 255, blank = True, null = True)
-    address = models.CharField(max_length = 255, blank = True, null = True)        
-    birth = models.DateField(blank = True, default=datetime.datetime.now)
-    gender = models.CharField(max_length=2, choices=GENDER_CHOICES)
+    birth = models.DateField()
+    gender =  models.CharField(max_length = 255, blank = True, null = True)
     nationality = models.CharField(max_length = 255, blank = True, null = True)
 
-    def __unicode__(self):
-        return self.teacher.user_id.username
-
 class Parent(models.Model):
-    user = models.OneToOneField(User)    
+    user = models.OneToOneField(User)
+    address = models.CharField(max_length = 255, blank = True, null = True)
+    mobile = models.CharField(max_length = 20, blank = True, null = True)
     school = models.ForeignKey(School)
     child = models.OneToOneField(Student)
     
     def __unicode__(self):
         return self.user.username
     
-    
-    
 class ParentProfile(models.Model):
-    parent = models.OneToOneField(Parent)
-    
-    GENDER_CHOICES = (
-        (u'M', u'Male'),
-        (u'F', u'Female'),
-    )
-    
-    email = models.EmailField(max_length = 40,blank = True,)
-    mobile =  models.CharField(max_length = 255, blank = True, null = True)
-    address = models.CharField(max_length = 255, blank = True, null = True)        
-    birth = models.DateField(blank = True, default=datetime.datetime.now)
-    gender = models.CharField(max_length=2, choices=GENDER_CHOICES)
-    nationality = models.CharField(max_length = 255, blank = True, null = True)
-    
+    parentsn = models.OneToOneField(Parent)
+
 class Temporary(models.Model):
     username = models.CharField(max_length=30)
     pwd = models.CharField(max_length=30)
