@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import patterns, include, url
+import settings
 
 from django.contrib import admin
 admin.autodiscover()
@@ -14,4 +15,6 @@ urlpatterns = patterns('',
     (r'^accounts/', include('accounts.urls')),
     (r'^accounts/', include('registration.urls')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^calendar/', include('calendar_app.urls')),
+    (r'^media/(?P<path>.*)$', 'django.views.static.serve', { 'document_root' : settings.MEDIA_ROOT }),
 )

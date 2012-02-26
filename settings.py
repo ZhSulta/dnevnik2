@@ -11,6 +11,9 @@ def rel(*x):
 def rel_to(to, *x):
     return os.path.join(to, *x)
 
+def path(*x):
+    return os.path.join(os.path.dirname(__file__), *x)
+
 sys.path.insert(0, rel('apps'))
 sys.path.insert(0, PROJECT_PATH)
 
@@ -25,9 +28,9 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'ENGINE': 'sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'dnevnik.db',                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
+        'USER': 'root',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
@@ -59,7 +62,7 @@ USE_L10N = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = rel('media')
+MEDIA_ROOT = path('media')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -74,6 +77,7 @@ STATIC_ROOT  = ''
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/static/'
+
 
 # URL prefix for admin static files -- CSS, JavaScript and images.
 # Make sure to use a trailing slash.
@@ -152,6 +156,8 @@ INSTALLED_APPS = (
     'guest',
     'accounts',
     'models',
+    'calendar_app',
+    #'callendar_apps',
     
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',

@@ -4,8 +4,9 @@
 		<h3>{{ title }}</h3>	
 		<form action="{% url teachers_temp_reg %}" method="post">{% csrf_token %}
 			<table>
-				{{ form.as_table }}			
-			</table> 
-			<input type="submit" value="Sign UP"/> 			     
-		</form>	
+			{{ form.as_table }}			
+			<input type="submit" value="Sign UP"/> 
+			</table>      
+		</form>
+	
 {% endblock %}

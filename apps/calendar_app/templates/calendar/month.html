@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+<!-- ... -->
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/month_style.css" />
+
+<a href= "{% url month year month "prev" %}">&lt;&lt; Prev</a>
+<a href= "{% url month year month "next" %}">Next &gt;&gt;</a>
+
+<h4>{{ mname }} {{ year }}</h4>
+
+<div class="month">
+    <table>
+
+    <tr>
+        <td class="empty">Mon</td>
+        <td class="empty">Tue</td>
+        <td class="empty">Wed</td>
+        <td class="empty">Thu</td>
+        <td class="empty">Fri</td>
+        <td class="empty">Sat</td>
+        <td class="empty">Sun</td>
+    </tr>
+
+    {% for week in month_days %}
+        <tr>
+        {% for day, entries, current in week %}
+
+            <!-- TD style: empty | day | current; onClick handler and highlight  -->
+            <td class = "cell" width="30" height="80"  class= {% if day == 0 %}"empty"{% endif %}
+            {% if day != 0 and not current %}"day"{% endif %}
+            {% if day != 0 and current %}"current"{% endif %}
+            {% if day != 0 %}
+                onClick="parent.location='{% url calendar_app.views.day year month day %}'"
+                onMouseOver="this.bgColor='#eeeeee';"
+                onMouseOut="this.bgColor='white';"
+            {% endif %} >
+
+            <!-- Day number and entry snippets -->
+            {% if day != 0 %}
+                {{ day }}
+                {% for entry in entries %}
+                    <br />
+                    <b>{{ entry.creator }}</b>: {{ entry.short|safe }}
+                {% endfor %}
+            {% endif %}
+            </td>
+        {% endfor %}
+        </tr>
+    {% endfor %}
+    </table>
+  {% if reminders %}
+	<div class="reminders">
+    <div class="gr">Alerts</div>
+    {% for reminder in reminders %}<p>{{reminder.short|safe }}</p>
+    {% endfor %}
+	</div>
+{% endif %}
+    <div class="clear"></div>
+</div>
+{% endblock %}
